@@ -40,7 +40,14 @@ class App extends Component {
     });
   }
 
+  get squaredCount() {
+    const count = this.state.count;
+    return count ** 2;
+  }
+
   render() {
+    console.log(this.state.count, this.squaredCount);
+    console.log(this.squaredCount);
     const names = this.state.names;
     return (
       <header>
@@ -64,6 +71,8 @@ class App extends Component {
           onChange={this.handleIncrement}
         />
         <span>Count is currently at {this.state.count}</span>
+        <br />
+        <span>Square of count is {this.squaredCount}</span>
       </header>
     );
   }
