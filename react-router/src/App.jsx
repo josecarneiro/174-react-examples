@@ -1,12 +1,15 @@
 import React from 'react';
 import { Component } from 'react';
 
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, withRouter } from 'react-router-dom';
 // import { NativeRouter, Switch, Route } from 'react-router-native';
 
 import HomeView from './views/HomeView';
 import FeaturesView from './views/FeaturesView';
 import ProductView from './views/ProductView';
+import PricingView from './views/PricingView';
+
+import Navbar from './components/Navbar';
 
 class App extends Component {
   constructor() {
@@ -15,21 +18,19 @@ class App extends Component {
   }
 
   render() {
+    const NavbarWithRouter = withRouter(Navbar);
     return (
       <BrowserRouter>
-        <header>
-          <p>Sample App</p>
-
-          <Link to="/">Home</Link>
-          <Link to="/features">Features</Link>
-          <Link to="/product/a">Product A</Link>
-          <Link to="/product/b">Product B</Link>
-        </header>
-
+        <NavbarWithRouter />
         <main>
           <Switch>
             <Route path="/product/:name" component={ProductView} />
             <Route path="/features" component={FeaturesView} />
+            {/* <Route path="/pricing" component={PricingView} /> */}
+            <Route
+              path="/pricing"
+              render={props => <PricingView {...props} foo="bar" />}
+            />
             <Route path="/" component={HomeView} />
           </Switch>
 

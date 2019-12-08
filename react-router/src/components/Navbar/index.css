@@ -1,0 +1,11 @@
+nav {
+  display: flex;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav span {
+  padding: 1em;
+}

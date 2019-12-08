@@ -11,6 +11,11 @@ class ProductView extends Component {
       information: null
     };
 
+    // Let's start fetching data in componentDidMount instead
+    // this.fetchData();
+  }
+
+  componentDidMount() {
     this.fetchData();
   }
 
