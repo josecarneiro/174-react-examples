@@ -1,32 +1,20 @@
 import React, { Component } from 'react';
 
-import {
-  load as loadNoteService,
-  edit as editNoteService,
-  remove as removeNoteService
-} from './../services/notes';
+import { create as createNoteService } from './../services/notes';
 
 class NoteEditView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      note: null
+      note: {
+        title: '',
+        content: '',
+        image: null
+      }
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleFormSubmission = this.handleFormSubmission.bind(this);
-    this.onDeleteTrigger = this.onDeleteTrigger.bind(this);
-  }
-
-  async componentDidMount() {
-    const id = this.props.match.params.id;
-    try {
-      const note = await loadNoteService(id);
-      this.setState({
-        note
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    this.handleFileChange = this.handleFileChange.bind(this);
   }
 
   handleInputChange(event) {
@@ -53,23 +41,25 @@ class NoteEditView extends Component {
   async handleFormSubmission(event) {
     event.preventDefault();
     const note = this.state.note;
-    const id = this.props.match.params.id;
+    console.log(note);
     try {
-      await editNoteService(id, note);
+      const noteDocument = await createNoteService(note);
+      const id = noteDocument._id;
       this.props.history.push(`/${id}`);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async onDeleteTrigger() {
-    const id = this.props.match.params.id;
-    try {
-      await removeNoteService(id);
-      this.props.history.push(`/`);
-    } catch (error) {
-      console.log(error);
-    }
+  handleFileChange(event) {
+    console.dir(event.target.files);
+    const file = event.target.files[0];
+    this.setState({
+      note: {
+        ...this.state.note,
+        image: file
+      }
+    });
   }
 
   render() {
@@ -91,10 +81,10 @@ class NoteEditView extends Component {
               name="content"
               onChange={this.handleInputChange}
             ></textarea>
-            <button>Edit Note</button>
+            <input type="file" name="image" onChange={this.handleFileChange} />
+            <button>Create Note</button>
           </form>
         )}
-        <button onClick={this.onDeleteTrigger}>Delete Note</button>
       </main>
     );
   }
