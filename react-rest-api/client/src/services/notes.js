@@ -17,3 +17,13 @@ export const list = async () => {
     throw error;
   }
 };
+
+export const load = async id => {
+  try {
+    const response = await apiService.get(`/${id}`);
+    const note = response.data.note;
+    return note;
+  } catch (error) {
+    throw error;
+  }
+};

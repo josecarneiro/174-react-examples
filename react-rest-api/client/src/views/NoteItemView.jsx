@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import { list as listNoteService } from './../services/notes';
+import { load as loadNoteService } from './../services/notes';
 
 class NoteListView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: []
+      note: null
     };
   }
 
   async componentDidMount() {
+    const id = this.props.match.params.id;
     try {
-      const notes = await listNoteService();
+      const note = await loadNoteService(id);
       this.setState({
-        notes
+        note
       });
     } catch (error) {
       console.log(error);
@@ -23,15 +24,14 @@ class NoteListView extends Component {
   }
 
   render() {
+    const note = this.state.note;
     return (
       <main>
-        {this.state.notes.map(note => (
-          <Link key={note._id} to={`/${note._id}`}>
-            <small>{note._id}</small>
-            <br />
-            {(note.title && <h1>{note.title}</h1>) || <h5>Note has no title</h5>}
-          </Link>
-        ))}
+        {note && (
+          <div>
+            <h1>{note.title}</h1>
+          </div>
+        )}
       </main>
     );
   }
