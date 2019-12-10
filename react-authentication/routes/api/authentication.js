@@ -98,7 +98,7 @@ router.get('/user-information', routeGuard, async (req, res, next) => {
   } else {
     try {
       const user = await User.findById(userId);
-      if (!user) throw new User('Signed in user not found');
+      if (!user) throw new Error('Signed in user not found');
       res.json({ user });
     } catch (error) {
       next(error);
