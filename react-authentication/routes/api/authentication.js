@@ -91,7 +91,7 @@ router.post('/sign-out', (req, res, next) => {
 
 const routeGuard = require('./../../middleware/route-guard');
 
-router.get('/user-information', routeGuard, async (req, res, next) => {
+router.get('/user-information', async (req, res, next) => {
   const userId = req.session.user;
   if (!userId) {
     res.json({});

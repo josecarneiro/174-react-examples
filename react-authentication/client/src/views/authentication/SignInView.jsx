@@ -26,7 +26,7 @@ class AuthenticationSignInView extends Component {
     const { email, password } = this.state;
     try {
       const user = await signInService({ email, password });
-      console.log(user);
+      this.props.changeAuthenticationStatus(user);
       this.props.history.push(`/private`);
     } catch (error) {
       console.log(error);

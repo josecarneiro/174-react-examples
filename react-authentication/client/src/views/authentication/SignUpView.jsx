@@ -27,7 +27,7 @@ class AuthenticationSignUpView extends Component {
     const { email, name, password } = this.state;
     try {
       const user = await signUpService({ email, name, password });
-      console.log(user);
+      this.props.changeAuthenticationStatus(user);
       this.props.history.push(`/private`);
     } catch (error) {
       console.log(error);
@@ -35,7 +35,6 @@ class AuthenticationSignUpView extends Component {
   }
 
   render() {
-    const note = this.state.note;
     return (
       <main>
         <form onSubmit={this.handleFormSubmission}>
